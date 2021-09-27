@@ -1,6 +1,15 @@
 import {Console, Process} from "as-wasi";
 import {Lexer, Recognition} from "./lexer";
 
+function createLexer() : Lexer {
+  const lexer = new Lexer();
+  lexer.recognizeKeyword("foo")
+  lexer.recognizeKeyword("bar")
+  lexer.recognizeKeyword("barrumba")
+  lexer.recognizeKeyword("zum")
+  return lexer
+}
+
 function processText(lexer: Lexer, text: string, start: boolean = true) : void {
   if (start) {
     Console.log(`\nProcessing "${text}"`)
@@ -21,12 +30,7 @@ function processText(lexer: Lexer, text: string, start: boolean = true) : void {
   }
 }
 
-const lexer = new Lexer();
-lexer.recognizeKeyword("foo")
-lexer.recognizeKeyword("bar")
-lexer.recognizeKeyword("barrumba")
-lexer.recognizeKeyword("zum")
-
+let lexer = createLexer()
 let done = false
 while (!done) {
   Console.log("insert input to process:")
