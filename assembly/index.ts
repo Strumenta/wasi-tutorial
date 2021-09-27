@@ -1,4 +1,4 @@
-import {Console, Process} from "as-wasi";
+import {Console} from "as-wasi";
 import {Lexer, Recognition} from "./lexer";
 
 function createLexer() : Lexer {
@@ -42,5 +42,3 @@ while (!done) {
     done = true
   }
 }
-
-
