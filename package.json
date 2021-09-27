@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "build": "asc assembly/index.ts -b build/index.wasm -t build/index.wat",
+    "start": "wasmtime --dir . build/index.wasm"
+  },
+  "dependencies": {
+    "@assemblyscript/loader": "^0.19.12",
+    "as-wasi": "^0.4.6",
+    "source-map-support": "^0.5.20"
+  },
+  "devDependencies": {
+    "assemblyscript": "^0.19.12"
+  }
+}
