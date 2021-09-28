@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build": "asc assembly/index.ts -b build/index.wasm -t build/index.wat",
-    "start": "wasmtime --dir . build/index.wasm"
+    "run": "wasmtime --dir . build/index.wasm",
+    "compilelib": "asc assembly/lexer.ts -b build/lexer.wasm -t build/lexer.wat"
   },
   "dependencies": {
     "@assemblyscript/loader": "^0.19.12",

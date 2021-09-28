@@ -1,3 +1,4 @@
+import "wasi";
 import {Console} from "as-wasi";
 import {Lexer, Recognition} from "./lexer";
 

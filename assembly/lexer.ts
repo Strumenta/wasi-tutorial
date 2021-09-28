@@ -1,7 +1,3 @@
-import "wasi";
-
-import { Console, FileSystem, Descriptor } from "as-wasi";
-
 class Transition {
     symbol: string
     destination: State
@@ -225,7 +221,6 @@ export class Lexer {
         }
         return selectedRecognition
     }
-
 
 }
 
