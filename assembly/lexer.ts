@@ -237,3 +237,15 @@ export class Recognition {
         return `Recognition(text:${this.text}, token:${this.token})`
     }
 }
+
+export function createLexerForKeywords(keywords: string[]) : Lexer {
+    const lexer = new Lexer();
+    for (let i=0;i<keywords.length;i++) {
+        lexer.recognizeKeyword(keywords[i])
+    }
+    return lexer
+}
+
+export function createArray(a: string) : string[] {
+    return [a]
+}
