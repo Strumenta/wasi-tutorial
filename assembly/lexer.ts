@@ -8,12 +8,12 @@ class Transition {
 }
 
 class State {
-    automata: Automata
+    automaton: Automaton
     name: string
     transitions: Transition[]
     epsilonTransitions: State[] = []
-    constructor(automata: Automata, name: string) {
-        this.automata = automata
+    constructor(automaton: Automaton, name: string) {
+        this.automaton = automaton
         this.name = name
         this.transitions = []
     }
@@ -64,7 +64,7 @@ class State {
     }
 }
 
-class Automata {
+class Automaton {
     states: State[]
     currentState: State | null
 
@@ -72,11 +72,11 @@ class Automata {
         this.states = []
     }
 
-    clone(startState: State) : Automata {
-        const newAutomata = new Automata()
-        newAutomata.states = this.states
-        newAutomata.currentState = startState
-        return newAutomata
+    clone(startState: State) : Automaton {
+        const newAutomaton = new Automaton()
+        newAutomaton.states = this.states
+        newAutomaton.currentState = startState
+        return newAutomaton
     }
 
     createState(name: string | null = null) : State {
@@ -134,13 +134,13 @@ class Automata {
 }
 
 export class Lexer {
-    automata: Automata;
+    automaton: Automaton;
     startState: State;
     recognitionMap: Map<State, string> = new Map<State, string>()
 
     constructor() {
-        this.automata = new Automata();
-        this.startState = this.automata.createState("start_state")
+        this.automaton = new Automaton();
+        this.startState = this.automaton.createState("start_state")
     }
 
     recognizeKeyword(keyword: string) : State {
@@ -156,7 +156,7 @@ export class Lexer {
             const symbol = keyword.charAt(i).toString()
             let existingState = currentState.getTransition(symbol)
             if (existingState == null) {
-                let nextState = currentState.automata.createState(name)
+                let nextState = currentState.automaton.createState(name)
                 currentState.createTransition(symbol, nextState)
                 currentState = nextState
             } else {
@@ -167,7 +167,7 @@ export class Lexer {
         return currentState
     }
 
-    private explodeEpsilonBranches(branch: Automata) : Automata[] {
+    private explodeEpsilonBranches(branch: Automaton) : Automaton[] {
         let branches = [branch]
         for (let i=0;i<(branch.currentState as State).epsilonTransitions.length;i++) {
             const et = (branch.currentState as State).epsilonTransitions[i]
@@ -177,7 +177,7 @@ export class Lexer {
         return branches
     }
 
-    private processSymbolWithBranch(branch: Automata, symbol: string) : Automata[] {
+    private processSymbolWithBranch(branch: Automaton, symbol: string) : Automaton[] {
         const nextState = branch.tryToProcessSymbol(symbol)
         if (nextState == null) {
             return []
@@ -187,11 +187,11 @@ export class Lexer {
     }
 
     nextToken(text: string): Recognition | null {
-        this.automata.currentState = this.startState
-        let branches : Automata[] = [this.automata.clone(this.startState)]
+        this.automaton.currentState = this.startState
+        let branches : Automaton[] = [this.automaton.clone(this.startState)]
         let recognized : Recognition[] = []
         for (let i=0;i<text.length && branches.length > 0 ;i++) {
-            let newBranches : Automata[] = []
+            let newBranches : Automaton[] = []
             const symbol = text.charAt(i).toString();
             for (let j=0;j<branches.length;j++) {
                 newBranches = newBranches.concat(this.processSymbolWithBranch(branches[j], symbol))
